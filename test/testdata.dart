@@ -1,6 +1,6 @@
-Uri testuri = Uri.parse(
+Uri urltest = Uri.parse(
     "https://api.github.com/search/repositories?q=created:%3E2022-04-29&sort=stars&order=desc");
-final jsonresponse = {
+final testjsonresponse = {
   "total_count": 26336980,
   "incomplete_results": true,
   "items": [

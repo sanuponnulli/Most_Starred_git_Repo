@@ -13,6 +13,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:http/http.dart' as http;
 
 import 'mocks.dart.mocks.dart';
+import 'testdata.dart';
 
 void main() {
   late MockClient mockClient;
@@ -31,25 +32,25 @@ void main() {
 
   group('ApiService Tests', () {
     late ApiService apiService;
+    late MockClient mockClient;
+
     late Uri testUri;
 
     setUp(() {
-      apiService = ApiService();
-      apiService.client = mockClient; // Inject the mock client
-      testUri = Uri.parse(
-          'your_api_endpoint'); // Replace with your actual API endpoint
+      mockClient = MockClient();
+      apiService = ApiService(client: mockClient);
+
+      // apiService.client = mockClient;
+      testUri = urltest;
     });
 
     test('Successful API call returns RepoModel', () async {
-      // Mock response
-      final jsonresponse = {/* Your JSON response here */};
+      final jsonresponse = testjsonresponse;
       when(mockClient.get(testUri)).thenAnswer(
           (_) async => http.Response(jsonEncode(jsonresponse), 200));
 
-      // Call the API
       var response = await apiService.fetchRepositories();
 
-      // Check if ApiResponse is successful and data is of type RepoModel
       expect(response.status, Status.COMPLETED);
       expect(response.data, isA<RepoModel>());
     });
@@ -83,8 +84,8 @@ void main() {
 
   group('GeneralRepository Tests', () {
     late GeneralRepository generalRepository;
-    final int testPage = 1;
-    final int testPerPage = 10;
+    const int testPage = 1;
+    const int testPerPage = 10;
 
     setUp(() {
       generalRepository = GeneralRepository(mockApiService);
@@ -188,8 +189,8 @@ void main() {
     });
 
     test('fetchRepositories should call GeneralRepository', () async {
-      final int testPage = 1;
-      final int testPerPage = 10;
+      const int testPage = 1;
+      const int testPerPage = 10;
       final sampleRepoModel = RepoModel(
           // Initialize with your desired RepoModel data
           );
